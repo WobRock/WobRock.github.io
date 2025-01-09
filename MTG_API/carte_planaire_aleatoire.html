@@ -24,7 +24,7 @@
 
     
     <!-- Input for selecting image color -->
-    <div id="color-selector">
+    <!-- <div id="color-selector">
         <h3> • Card Color selection.</h3>
         <p>W = Blanc ; U = Bleu ; B = Noir ; R = Rouge ; G = Vert (Incolore sera représenté automatiquement).<br>
             Peut être combo par ex : UB.            
@@ -43,7 +43,7 @@
             <option value="R">Rare</option>
             <option value="M">Mystic</option>
         </select>
-    </div>
+    </div> -->
 
     <p></p>
 
@@ -54,30 +54,30 @@
 
         <!-- Slider to adjust image width -->
         <div id="slider-container">
-            <label for="image-width-slider">Adjust Image Width: </label>
-            <input type="range" id="image-width-slider" min="100" max="500" value="200">
+            <label for="image-width-slider">Adjust Image Height: </label>
+            <input type="range" id="image-width-slider" min="100" max="800" value="400">
             <span id="slider-value">200</span> px
         </div>
         
     </div>
 
     <!-- Placeholder for displaying the images -->
-    <div id="image-container"></div>
+    <div id="image-container-horizontal"></div>
 
     <script>
         // Function to fetch five images from the API and display them
         function fetchImages() {
             // Clear previous images before fetching new ones
-            const imageContainer = document.getElementById('image-container');
+            const imageContainer = document.getElementById('image-container-horizontal');
             imageContainer.innerHTML = '';
 
             // Get the selected color from the dropdown (now using the single-letter code)
-            const selectedColor = document.getElementById('color-select').value;
-            const selectedRarity = document.getElementById('rarity-select').value;
+            // const selectedColor = document.getElementById('color-select').value;
+            // const selectedRarity = document.getElementById('rarity-select').value;
 
             // Construct the API URL with the selected color as a query parameter
             // const apiUrl = `https://api.com?color=${selectedColor}`;
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}`;
+            const apiUrl = "https://api.scryfall.com/cards/random?q=is%3Aplanar";
             console.log(apiUrl)
             
 
@@ -92,7 +92,7 @@
 
                             // Create a div for each image with a replace button
                             const imageItem = document.createElement('div');
-                            imageItem.classList.add('image-item');
+                            imageItem.classList.add('image-item-horizontal');
 
                             // Create the image element
                             const imgElement = document.createElement('img');
@@ -101,15 +101,17 @@
 
                             // Set the image width based on the slider value
                             const sliderValue = document.getElementById('image-width-slider').value;
-                            imgElement.style.width = sliderValue + 'px';
+                            imgElement.style.height = sliderValue + 'px';
+                            imgElement.style.transform = "rotate(90deg)";
 
                             // Create the replace button
                             const replaceButton = document.createElement('button');
-                            replaceButton.classList.add('replace-btn');
+                            replaceButton.classList.add('replace-btn-horizontal');
                             replaceButton.textContent = 'Reroll Card';
                             replaceButton.onclick = function() {
-                                replaceImage(imgElement, selectedColor);
+                                replaceImage(imgElement);
                             };
+                            replaceButton.style.marginTop = -sliderValue + 'px'
 
                             // Append the image and button to the container
                             imageItem.appendChild(imgElement);
@@ -126,12 +128,10 @@
         }
 
         // Function to replace a specific image when the button is clicked
-        function replaceImage(imgElement, selectedColor) {
-            // Get the selected color from the dropdown (now using the single-letter code)
-            selectedColor = document.getElementById('color-select').value;
-            selectedRarity = document.getElementById('rarity-select').value;
+        function replaceImage(imgElement) {
+
             // Construct the API URL with the selected color
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}`;
+            const apiUrl = "https://api.scryfall.com/cards/random?q=is%3Aplanar";
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
@@ -153,11 +153,11 @@
         document.getElementById('image-width-slider').addEventListener('input', function() {
             const sliderValue = this.value;
             document.getElementById('slider-value').textContent = sliderValue; // Update the display of the slider value
-            const images = document.querySelectorAll('#image-container img');
+            const images = document.querySelectorAll('#image-container-horizontal img');
             images.forEach(img => {
-                img.style.width = sliderValue + 'px'; // Apply the width change to each image
+                img.style.width = 'auto'; // Apply the width change to each image
                 // Maintain aspect ratio by adjusting the height automatically
-                img.style.height = 'auto';
+                img.style.height = sliderValue + 'px';
             });
         });
     </script>

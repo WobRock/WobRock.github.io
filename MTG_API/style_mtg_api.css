@@ -1,0 +1,36 @@
+/* Style to display the images in a row */
+#image-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    max-height: 700px; /* Restrict the max height */
+    width: auto; /* Maintain aspect ratio */
+}
+.image-item {
+    text-align: center;
+}
+.replace-btn {
+    margin-top: 10px;
+}
+#image-container-horizontal img {
+    max-width: 700px; /* Restrict the max height */
+    height: auto; /* Maintain aspect ratio */
+    display: flex;
+    flex-direction: column;  /* Stack items vertically in the same column */
+    gap: -1000px;  /* Space between items */
+    flex-wrap: wrap;  /* Allows items to wrap if necessary */
+
+}
+.image-item-horizontal {
+    text-align: left;
+    padding-left: 10%;
+}
+
+.replace-btn-horizontal {
+    margin-top: 0px;
+    padding-top: -300px;
+}
+
+#slider-container {
+    margin-bottom: 20px;
+}
