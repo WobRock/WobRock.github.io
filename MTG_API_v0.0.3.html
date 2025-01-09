@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Fetcher</title>
+    <style>
+        /* Style to display the images in a row */
+        #image-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .image-item {
+            text-align: center;
+        }
+        #image-container img {
+            max-height: 700px; /* Restrict the max height */
+            width: auto; /* Maintain aspect ratio */
+        }
+        .replace-btn {
+            margin-top: 10px;
+        }
+        #slider-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Click the button to fetch and display 5 Cards</h1>
+
+    <!-- Dropdown for selecting image color -->
+    <!-- <div id="color-selector">
+        <label for="color-select">Select Card Color: </label>
+        <select id="color-select">
+            <option value="W">White</option>
+            <option value="U">Blue</option>
+            <option value="B">Black</option>
+            <option value="R">Red</option>
+            <option value="G">Green</option>
+        </select>
+    </div> -->
+
+
+    
+    <!-- Input for selecting image color -->
+    <div id="color-selector">
+        <h3> • Card Color selection.</h3>
+        <p>W = Blanc ; U = Bleu ; B = Noir ; R = Rouge ; G = Vert (Incolore sera représenté automatiquement).<br>
+            Peut être combo par ex : UB.            
+        </p>
+        <label for="color-select">Select Card Color: </label>
+        <input type="text" id="color-select" name="color-selector" required minlength="1" maxlength="8" size="10" />
+        <p></p>
+    </div>
+
+    <div id="rarity-selector">
+        <h3> • Card Rarity selection.</h3>
+        <label for="rarity-select">Select Card Rarity:</label>
+        <select id="rarity-select">
+            <option value="C">Common</option>
+            <option value="U">Uncommon</option>
+            <option value="R">Rare</option>
+            <option value="M">Mystic</option>
+        </select>
+    </div>
+
+    <p></p>
+
+    <div id="controls-container" style="display: flex; align-items: center; gap: 50px;">
+        <!-- Button to trigger the image request -->
+        <button onclick="fetchImages()">Fetch Cards</button>
+
+
+        <!-- Slider to adjust image width -->
+        <div id="slider-container">
+            <label for="image-width-slider">Adjust Image Width: </label>
+            <input type="range" id="image-width-slider" min="100" max="500" value="200">
+            <span id="slider-value">200</span> px
+        </div>
+        
+    </div>
+
+    <!-- Placeholder for displaying the images -->
+    <div id="image-container"></div>
+
+    <script>
+        // Function to fetch five images from the API and display them
+        function fetchImages() {
+            // Clear previous images before fetching new ones
+            const imageContainer = document.getElementById('image-container');
+            imageContainer.innerHTML = '';
+
+            // Get the selected color from the dropdown (now using the single-letter code)
+            const selectedColor = document.getElementById('color-select').value;
+            const selectedRarity = document.getElementById('rarity-select').value;
+
+            // Construct the API URL with the selected color as a query parameter
+            // const apiUrl = `https://api.com?color=${selectedColor}`;
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}`;
+            console.log(apiUrl)
+            
+
+            // Fetch images 5 times
+            for (let i = 0; i < 5; i++) {
+                fetch(apiUrl)
+                    .then(response => response.json())  // Parse the JSON response
+                    .then(data => {
+                        // Check if the expected image path exists
+                        if (data.image_uris && data.image_uris.large) {
+                            const imageUrl = data.image_uris.large;
+
+                            // Create a div for each image with a replace button
+                            const imageItem = document.createElement('div');
+                            imageItem.classList.add('image-item');
+
+                            // Create the image element
+                            const imgElement = document.createElement('img');
+                            imgElement.src = imageUrl;
+                            imgElement.alt = 'Fetched Card';
+
+                            // Set the image width based on the slider value
+                            const sliderValue = document.getElementById('image-width-slider').value;
+                            imgElement.style.width = sliderValue + 'px';
+
+                            // Create the replace button
+                            const replaceButton = document.createElement('button');
+                            replaceButton.classList.add('replace-btn');
+                            replaceButton.textContent = 'Reroll Card';
+                            replaceButton.onclick = function() {
+                                replaceImage(imgElement, selectedColor);
+                            };
+
+                            // Append the image and button to the container
+                            imageItem.appendChild(imgElement);
+                            imageItem.appendChild(replaceButton);
+                            imageContainer.appendChild(imageItem);
+                        } else {
+                            console.warn('Image URL not found in the response');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching the image:', error);
+                    });
+            }
+        }
+
+        // Function to replace a specific image when the button is clicked
+        function replaceImage(imgElement, selectedColor) {
+            // Get the selected color from the dropdown (now using the single-letter code)
+            selectedColor = document.getElementById('color-select').value;
+            selectedRarity = document.getElementById('rarity-select').value;
+            // Construct the API URL with the selected color
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())  // Parse the JSON response
+                .then(data => {
+                    // Check if the expected image path exists
+                    if (data.image_uris && data.image_uris.large) {
+                        const newImageUrl = data.image_uris.large;
+                        imgElement.src = newImageUrl;  // Update the image source
+                    } else {
+                        console.warn('Image URL not found in the response');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the new image:', error);
+                });
+        }
+
+        // Adjust image width dynamically based on slider value
+        document.getElementById('image-width-slider').addEventListener('input', function() {
+            const sliderValue = this.value;
+            document.getElementById('slider-value').textContent = sliderValue; // Update the display of the slider value
+            const images = document.querySelectorAll('#image-container img');
+            images.forEach(img => {
+                img.style.width = sliderValue + 'px'; // Apply the width change to each image
+                // Maintain aspect ratio by adjusting the height automatically
+                img.style.height = 'auto';
+            });
+        });
+    </script>
+
+</body>
+</html>
