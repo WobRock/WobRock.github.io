@@ -27,7 +27,8 @@
     <div id="color-selector">
         <h3> • Card Color selection.</h3>
         <p>W = Blanc ; U = Bleu ; B = Noir ; R = Rouge ; G = Vert (Incolore sera représenté automatiquement).<br>
-            Peut être combo par ex : UB.            
+            Peut être combo par ex : UB.<br>            
+            <b>MUST NOT BE EMPTY.</b>            
         </p>
         <label for="color-select">Select Card Color: </label>
         <input type="text" id="color-select" name="color-selector" required minlength="1" maxlength="8" size="10" />
@@ -40,7 +41,7 @@
             Supertype / Subtype<br>Utiliser Scryfall pour la liste des sur-types et sous-types.       
         </p>
         <label for="type-select">Select Card Type: </label>
-        <input type="text" id="type-select" name="type-selector" required minlength="1" maxlength="8" size="10" />
+        <input type="text" id="type-select" name="type-selector" required minlength="1" maxlength="50" size="10" />
         <p></p>
     </div>
 
