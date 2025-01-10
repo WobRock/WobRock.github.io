@@ -26,33 +26,23 @@
     <!-- Input for selecting image color -->
     <div id="color-selector">
         <h3> • Card Color selection.</h3>
-        <p>W = Blanc ; U = Bleu ; B = Noir ; R = Rouge ; G = Vert (Incolore sera représenté automatiquement).<br>
+        <p>W = Blanc ; U = Bleu ; B = Noir ; R = Rouge ; G = Vert.<br>
             Peut être combo par ex : UB.<br>            
-            <b>MUST NOT BE EMPTY.</b>            
+            <b>MUST NOT BE EMPTY.</b>
         </p>
         <label for="color-select">Select Card Color: </label>
         <input type="text" id="color-select" name="color-selector" required minlength="1" maxlength="8" size="10" />
         <p></p>
     </div>
 
-    <div id="rarity-selector">
-        <h3> • Card Rarity selection.</h3>
-        <label for="rarity-select">Select Card Rarity:</label>
-        <select id="rarity-select">
-            <option value="C">Common</option>
-            <option value="U">Uncommon</option>
-            <option value="R">Rare</option>
-            <option value="M">Mystic</option>
-        </select>
-    </div>
-
-    <div id="type-selector">
-        <h3> • Card Type selection.</h3>
+    <div id="set-selector">
+        <h3> • Card Set selection.</h3>
         <p> 
-            Supertype / Subtype<br>Utiliser Scryfall pour la liste des sur-types et sous-types.       
+            Remplacer par le nom de l'extension non-compilation (hors cas particuliers).
+            <br>Voir : <a href="https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets">https://en.wikipedia.org/wiki/List_of_Magic:_The_Gathering_sets</a>.
         </p>
-        <label for="type-select">Select Card Type: </label>
-        <input type="text" id="type-select" name="type-selector" required minlength="1" maxlength="50" size="10" />
+        <label for="set-select">Select Card Set: </label>
+        <input type="text" id="set-select" name="set-selector" required minlength="1" maxlength="100" size="80" />
         <p></p>
     </div>
 
@@ -84,11 +74,11 @@
 
             // Get the selected color from the dropdown (now using the single-letter code)
             const selectedColor = document.getElementById('color-select').value;
-            const selectedRarity = document.getElementById('rarity-select').value;
-            const selectedType = document.getElementById('type-select').value;
+            var selectedSet = document.getElementById('set-select').value.split(' ').join('_');
+            console.log(selectedSet)
 
             // Construct the API URL with the selected color as a query parameter
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}+type%3A${selectedType}`
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A{${selectedSet}}`
             console.log(apiUrl)
             
 
@@ -140,10 +130,9 @@
         function replaceImage(imgElement) {
             // Get the selected color from the dropdown (now using the single-letter code)
             selectedColor = document.getElementById('color-select').value;
-            selectedRarity = document.getElementById('rarity-select').value;
-            selectedType = document.getElementById('type-select').value;
+            selectedSet = document.getElementById('set-select').value.split(' ').join('_');
             // Construct the API URL with the selected color
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}+type%3A${selectedType}`
+            apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A{${selectedSet}}`
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response

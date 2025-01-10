@@ -10,51 +10,18 @@
 </head>
 <body>
 
-<div id="header-container" style="display: flex; align-items: center; gap: 50px;">
-    <h1>Click the button to fetch and display 5 Cards</h1>
-    <form action="mtg_api.html">
-        <input type="submit" value="Back to MTG Menu" />
-    </form>
-    <form action="../index.html">
-        <input type="submit" value="Home" />
-    </form>
-</div>
-
-
-
-    
-    <!-- Input for selecting image color -->
-    <div id="color-selector">
-        <h3> • Card Color selection.</h3>
-        <p>W = Blanc ; U = Bleu ; B = Noir ; R = Rouge ; G = Vert (Incolore sera représenté automatiquement).<br>
-            Peut être combo par ex : UB.<br>            
-            <b>MUST NOT BE EMPTY.</b>            
-        </p>
-        <label for="color-select">Select Card Color: </label>
-        <input type="text" id="color-select" name="color-selector" required minlength="1" maxlength="8" size="10" />
-        <p></p>
+    <div id="header-container" style="display: flex; align-items: center; gap: 50px;">
+        <h1>Click the button to fetch and display 5 Cards</h1>
+        <form action="mtg_api.html">
+            <input type="submit" value="Back to MTG Menu" />
+        </form>
+        <form action="../index.html">
+            <input type="submit" value="Home" />
+        </form>
     </div>
 
-    <div id="rarity-selector">
-        <h3> • Card Rarity selection.</h3>
-        <label for="rarity-select">Select Card Rarity:</label>
-        <select id="rarity-select">
-            <option value="C">Common</option>
-            <option value="U">Uncommon</option>
-            <option value="R">Rare</option>
-            <option value="M">Mystic</option>
-        </select>
-    </div>
+    <h2>Commandant avec Partner (à utiliser si vous choisissez un commandant Partner)</h2>
 
-    <div id="type-selector">
-        <h3> • Card Type selection.</h3>
-        <p> 
-            Supertype / Subtype<br>Utiliser Scryfall pour la liste des sur-types et sous-types.       
-        </p>
-        <label for="type-select">Select Card Type: </label>
-        <input type="text" id="type-select" name="type-selector" required minlength="1" maxlength="50" size="10" />
-        <p></p>
-    </div>
 
     <p></p>
 
@@ -83,12 +50,11 @@
             imageContainer.innerHTML = '';
 
             // Get the selected color from the dropdown (now using the single-letter code)
-            const selectedColor = document.getElementById('color-select').value;
-            const selectedRarity = document.getElementById('rarity-select').value;
-            const selectedType = document.getElementById('type-select').value;
+            // const selectedColor = document.getElementById('color-select').value;
 
             // Construct the API URL with the selected color as a query parameter
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}+type%3A${selectedType}`
+            // const apiUrl = `https://api.com?color=${selectedColor}`;
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=is%3Acommander+oracle%3APartner`;
             console.log(apiUrl)
             
 
@@ -139,11 +105,11 @@
         // Function to replace a specific image when the button is clicked
         function replaceImage(imgElement) {
             // Get the selected color from the dropdown (now using the single-letter code)
-            selectedColor = document.getElementById('color-select').value;
-            selectedRarity = document.getElementById('rarity-select').value;
-            selectedType = document.getElementById('type-select').value;
+            // selectedColor = document.getElementById('color-select').value;
+
             // Construct the API URL with the selected color
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}+type%3A${selectedType}`
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=is%3Acommander+oracle%3APartner`;
+            
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
