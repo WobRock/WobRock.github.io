@@ -75,7 +75,7 @@
             console.log(selectedMana)
 
             // Construct the API URL with the selected color as a query parameter
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3A{${selectedMana}}`
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3A${selectedMana}`
             console.log(apiUrl)
             
 
@@ -131,7 +131,7 @@
             selectedColor = document.getElementById('color-select').value;
             selectedMana = document.getElementById('mana-select').value.split(' ').join('_');
             // Construct the API URL with the selected color
-            apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3A{${selectedMana}}`
+            apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3A${selectedMana}`
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
