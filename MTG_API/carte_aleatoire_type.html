@@ -92,7 +92,7 @@
             var apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+type%3A${selectedType}`
             
             if (selectedRarity !== 'Rad'){
-                apiUrl = apiUrl + `rarity%3A${selectedRarity}`
+                apiUrl = apiUrl + `+rarity%3A${selectedRarity}`
             }
             
 
@@ -161,7 +161,7 @@
             var apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+type%3A${selectedType}`
             
             if (selectedRarity !== 'Rad'){
-                apiUrl = apiUrl + `rarity%3A${selectedRarity}`
+                apiUrl = apiUrl + `+rarity%3A${selectedRarity}`
             }
 
             fetch(apiUrl)

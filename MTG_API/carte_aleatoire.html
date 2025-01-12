@@ -80,7 +80,7 @@
             // const apiUrl = `https://api.com?color=${selectedColor}`;
             var apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}`;
             if (selectedRarity !== 'Rad'){
-                apiUrl = apiUrl + `rarity%3A${selectedRarity}`
+                apiUrl = apiUrl + `+rarity%3A${selectedRarity}`
             }
             
             console.log(apiUrl)
@@ -145,7 +145,7 @@
             // Construct the API URL with the selected color
             var apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}`;
             if (selectedRarity !== 'Rad'){
-                apiUrl = apiUrl + `rarity%3A${selectedRarity}`
+                apiUrl = apiUrl + `+rarity%3A${selectedRarity}`
             }
 
             fetch(apiUrl)
