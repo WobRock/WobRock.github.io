@@ -81,7 +81,6 @@
             const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+set%3A${selectedSet}`
             console.log(apiUrl)
             
-
             // Fetch images 5 times
             for (let i = 0; i < 5; i++) {
                 fetch(apiUrl)
@@ -133,7 +132,7 @@
             selectedSet = document.getElementById('set-select').value.split(' ').join('_');
             // Construct the API URL with the selected color
             apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+set%3A${selectedSet}`
-
+            
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
                 .then(data => {

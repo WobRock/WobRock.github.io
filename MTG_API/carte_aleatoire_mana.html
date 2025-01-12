@@ -75,7 +75,7 @@
             console.log(selectedMana)
 
             // Construct the API URL with the selected color as a query parameter
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3A${selectedMana}`
+            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3D${selectedMana}`
             console.log(apiUrl)
             
 
@@ -87,7 +87,8 @@
                         // Check if the expected image path exists
                         if (data.image_uris && data.image_uris.large) {
                             const imageUrl = data.image_uris.large;
-
+                            console.log("Fetching card n° : " + i)
+                            console.log(apiUrl)
                             console.log("Mana cost of : " + data.name + " = " + data.mana_cost)
 
                             // Create a div for each image with a replace button
@@ -131,7 +132,7 @@
             selectedColor = document.getElementById('color-select').value;
             selectedMana = document.getElementById('mana-select').value.split(' ').join('_');
             // Construct the API URL with the selected color
-            apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3A${selectedMana}`
+            apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+mana%3D${selectedMana}`
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
@@ -141,7 +142,10 @@
                         const newImageUrl = data.image_uris.large;
                         imgElement.src = newImageUrl;  // Update the image source
                     } else {
-                        console.warn('Image URL not found in the response');
+                        var error_message = 'Image URL not found in the response'
+                        console.warn(error_message);
+                        imgElement.src = null;
+                        imgElement.alt = error_message +"\n\n";
                     }
                 })
                 .catch(error => {

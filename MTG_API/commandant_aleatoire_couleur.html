@@ -71,46 +71,52 @@
             console.log(apiUrl)
             
 
-            // Fetch images 5 times
             for (let i = 0; i < 5; i++) {
                 fetch(apiUrl)
                     .then(response => response.json())  // Parse the JSON response
                     .then(data => {
+                        // Create a div for each image with a replace button
+                        const imageItem = document.createElement('div');
+                        
+                        // Create the image element
+                        const imgElement = document.createElement('img');
+
+                        // Set the image width based on the slider value
+                        const sliderValue = document.getElementById('image-width-slider').value;
+                        imgElement.style.width = sliderValue + 'px';
+
+                        // Create the replace button
+                        const replaceButton = document.createElement('button');
+                        replaceButton.classList.add('replace-btn');
+                        replaceButton.textContent = 'Reroll Card';
+                        replaceButton.onclick = function() {
+                            replaceImage(imgElement, selectedColor);
+                        };
+
+
                         // Check if the expected image path exists
                         if (data.image_uris && data.image_uris.large) {
                             const imageUrl = data.image_uris.large;
-
-                            // Create a div for each image with a replace button
-                            const imageItem = document.createElement('div');
-                            imageItem.classList.add('image-item');
-
-                            // Create the image element
-                            const imgElement = document.createElement('img');
+                            
                             imgElement.src = imageUrl;
                             imgElement.alt = 'Fetched Card';
 
-                            // Set the image width based on the slider value
-                            const sliderValue = document.getElementById('image-width-slider').value;
-                            imgElement.style.width = sliderValue + 'px';
-
-                            // Create the replace button
-                            const replaceButton = document.createElement('button');
-                            replaceButton.classList.add('replace-btn');
-                            replaceButton.textContent = 'Reroll Card';
-                            replaceButton.onclick = function() {
-                                replaceImage(imgElement, selectedColor);
-                            };
-
-                            // Append the image and button to the container
-                            imageItem.appendChild(imgElement);
-                            imageItem.appendChild(replaceButton);
-                            imageContainer.appendChild(imageItem);
+                           
                         } else {
-                            console.warn('Image URL not found in the response');
+                            var error_message = 'Image URL not found in the response'
+                            console.warn(error_message);
+                            imgElement.alt = error_message +"\n\n";
+                            
                         }
+                        // Append the image and button to the container
+                        imageItem.classList.add('image-item');
+                        imageItem.appendChild(imgElement);
+                        imageItem.appendChild(replaceButton);
+                        imageContainer.appendChild(imageItem);
                     })
                     .catch(error => {
-                        console.error('Error fetching the image:', error);
+                        var error_message = 'Error fetching the image: ' + error
+                        console.error(error_message);
                     });
             }
         }
@@ -132,7 +138,10 @@
                         const newImageUrl = data.image_uris.large;
                         imgElement.src = newImageUrl;  // Update the image source
                     } else {
-                        console.warn('Image URL not found in the response');
+                        var error_message = 'Image URL not found in the response'
+                        console.warn(error_message);
+                        imgElement.src = null;
+                        imgElement.alt = error_message +"\n\n";
                     }
                 })
                 .catch(error => {
