@@ -38,6 +38,7 @@
         <h3> • Card Rarity selection.</h3>
         <label for="rarity-select">Select Card Rarity:</label>
         <select id="rarity-select">
+            <option value="Rad">Random</option>
             <option value="C">Common</option>
             <option value="U">Uncommon</option>
             <option value="R">Rare</option>
@@ -77,7 +78,11 @@
 
             // Construct the API URL with the selected color as a query parameter
             // const apiUrl = `https://api.com?color=${selectedColor}`;
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}`;
+            var apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}`;
+            if (selectedRarity !== 'Rad'){
+                apiUrl = apiUrl + `rarity%3A${selectedRarity}`
+            }
+            
             console.log(apiUrl)
             
 
@@ -131,7 +136,10 @@
             selectedColor = document.getElementById('color-select').value;
             selectedRarity = document.getElementById('rarity-select').value;
             // Construct the API URL with the selected color
-            const apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+rarity%3A${selectedRarity}`;
+            var apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}`;
+            if (selectedRarity !== 'Rad'){
+                apiUrl = apiUrl + `rarity%3A${selectedRarity}`
+            }
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
