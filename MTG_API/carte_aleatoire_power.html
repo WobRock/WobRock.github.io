@@ -154,7 +154,19 @@
             selectedColor = document.getElementById('color-select').value;
             selectedPower = document.getElementById('power-select').value.split(' ').join('_');
             // Construct the API URL with the selected color
-            apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+power%3A{${selectedPower}}`
+            var apiUrl = ``
+            if (selectedPower.length !== 0 && selectedToughness.length == 0) {
+                apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+power%3A${selectedPower}`
+                console.log("==+> Case 1 : selected power and no selected toughness")
+            } else if (selectedPower.length == 0 && selectedToughness.length !== 0) {
+                apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+toughness%3A${selectedToughness}`
+                console.log("==+> Case 2 : selected toughness and no selected power")
+            } else if (selectedPower.length !== 0 && selectedToughness.length !== 0) {
+                apiUrl = `https://api.scryfall.com/cards/random?&q=commander%3A${selectedColor}+power%3A${selectedPower}+toughness%3A${selectedToughness}`
+                console.log("==+> Case 3 : both power and toughness selected")
+            }
+
+            console.log("Url : " + apiUrl + " | power : " +  selectedPower + " | toughness : " +  selectedToughness)
 
             fetch(apiUrl)
                 .then(response => response.json())  // Parse the JSON response
