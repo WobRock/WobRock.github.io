@@ -152,7 +152,8 @@
         function replaceImage(imgElement) {
             // Get the selected color from the dropdown (now using the single-letter code)
             selectedColor = document.getElementById('color-select').value;
-            selectedPower = document.getElementById('power-select').value.split(' ').join('_');
+            selectedPower = document.getElementById('power-select').value;
+            selectedToughness = document.getElementById('toughness-select').value;
             // Construct the API URL with the selected color
             var apiUrl = ``
             if (selectedPower.length !== 0 && selectedToughness.length == 0) {
